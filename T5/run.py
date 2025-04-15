@@ -361,8 +361,8 @@ def main():
                         model = T5ForConditionalGeneration.from_pretrained(pretrained_model_name_or_path=model_dir, config='t5-base')
                     else:
                         model_dir = "./pytorch_model.bin"
-                        # model = T5ForConditionalGeneration.from_pretrained(pretrained_model_name_or_path=model_dir, config='t5-base')
-                        model = T5ForConditionalGeneration.from_pretrained(, config='t5-base')
+                        model = T5ForConditionalGeneration.from_pretrained(model_dir, config='t5-base')
+                        # model = T5ForConditionalGeneration.from_pretrained(, config='t5-base')
 
                 if len(evaluation_dir) > 0:
                     logging.info(f'Evaluate {evaluation_dir} on {dataset_name} {split}')
