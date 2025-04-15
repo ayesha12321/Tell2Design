@@ -45,8 +45,7 @@ def main():
     parser.add_argument('-a', '--evaluate_all', action='store_true', default=False,
                         help='evaluate intermediate checkpoints together with the final model')
     parser.add_argument('-g', '--gpu', type=int, default=0, help='which GPU to use for evaluation')
-    parser.add_argument('-v', '--verbose_results', action='store_true', default=False,
-                        help='print results for each evaluation run')
+    parser.add_argument('-v', '--verbose_results', action='store_true', default=True)
     args, remaining_args = parser.parse_known_args()
 
     # read config file
@@ -351,7 +350,7 @@ def main():
                             t5_config = T5Config.from_pretrained("t5-base")
                             model = T5ForConditionalGeneration(t5_config)
                             # model.load_state_dict(model_dir)
-                            checkpoint = torch.load(os.path.join(model_dir,'pytorch_model.bin'))
+                            checkpoint = torch.load(os.path.join('.','pytorch_model.bin'))
                             model.load_state_dict(checkpoint)
                             # model = model.from_pretrained(pretrained_model_name_or_path=model_dir, config='t5-base')
                     elif data_args.boundary_in_where == "Decoder":
@@ -361,7 +360,9 @@ def main():
                         # )
                         model = T5ForConditionalGeneration.from_pretrained(pretrained_model_name_or_path=model_dir, config='t5-base')
                     else:
-                        raise Exception("pleae indicate where to add boundary information in the argument: boundary_in_where (Encoder or Decoder)")
+                        model_dir = "./pytorch_model.bin"
+                        # model = T5ForConditionalGeneration.from_pretrained(pretrained_model_name_or_path=model_dir, config='t5-base')
+                        model = T5ForConditionalGeneration.from_pretrained(, config='t5-base')
 
                 if len(evaluation_dir) > 0:
                     logging.info(f'Evaluate {evaluation_dir} on {dataset_name} {split}')
