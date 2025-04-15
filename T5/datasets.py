@@ -872,7 +872,7 @@ class FloorplanDataset(JointERDataset):
         # render images for gt and predicted boxes for preview 
         render_image_(example,predicted_boxes,all_gt_rooms,gt_boxes,output_dir)
 
-        # macro_average_iou, micro_average_iou = calculate_iou(gt_boxes, predicted_boxes)
+        macro_average_iou, micro_average_iou = calculate_iou(gt_boxes, predicted_boxes)
 
         average_iou = (macro_average_iou+micro_average_iou)/2
 
