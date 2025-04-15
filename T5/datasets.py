@@ -684,7 +684,7 @@ class FloorplanDataset(JointERDataset):
         """
         examples = []
         name = self.name if self.data_name is None else self.data_name
-        file_path = os.path.join(self.data_dir(), f'{name}_{split}.json')
+        file_path = '/Tell2Design_unzipped_files/Tell2Design Data/Separated Data/eval_data/T5/floorplan_eval.json'
 
         with open(file_path, 'r') as f:
             data = json.load(f)
@@ -874,21 +874,21 @@ class FloorplanDataset(JointERDataset):
 
         # macro_average_iou, micro_average_iou = calculate_iou(gt_boxes, predicted_boxes)
 
-        # average_iou = (macro_average_iou+micro_average_iou)/2
+        average_iou = (macro_average_iou+micro_average_iou)/2
 
-        # res = Counter({
-        #     'num_sentences': 1,
-        #     'wrong_reconstructions': 1 if wrong_reconstruction else 0,
-        #     'label_error': 1 if label_error else 0,
-        #     'format_error': 1 if format_error else 0,
-        #     'gt_rooms': len(example.rooms),
-        #     'predicted_rooms': len(predicted_rooms),
-        #     'macro_average_iou': macro_average_iou,
-        #     'micro_average_iou' : micro_average_iou
-        # })
+        res = Counter({
+            'num_sentences': 1,
+            'wrong_reconstructions': 1 if wrong_reconstruction else 0,
+            'label_error': 1 if label_error else 0,
+            'format_error': 1 if format_error else 0,
+            'gt_rooms': len(example.rooms),
+            'predicted_rooms': len(predicted_rooms),
+            'macro_average_iou': macro_average_iou,
+            'micro_average_iou' : micro_average_iou
+        })
 
-        # return res, average_iou
-        return
+        return res, average_iou
+        # return
 
 
     def evaluate_dataset(self, data_args: DataTrainingArguments, model, device, batch_size: int, output_dir:str, macro: bool = False) -> Dict[str, float]:
@@ -897,23 +897,14 @@ class FloorplanDataset(JointERDataset):
         """
         results = Counter()
         try:
-            os.mkdir(f'{output_dir}output_images/')
+            os.mkdir(f'{output_dir}draw/')
         except FileExistsError:
             pass
 
         editing_instances = []
         iou = defaultdict()
         for example, output_sentence, predicted_index in self.generate_output_sentences(data_args, model, device, batch_size, self.features):
-            self.evaluate_example(
-                    example=example,
-                    output_sentence=output_sentence,
-                    model=model,
-                    tokenizer=self.tokenizer,
-                    output_dir=output_dir,
-                    prediction = predicted_index
-                )
-        return "Rendering Done!"
-        #     new_result, average_iou = self.evaluate_example(
+        #     self.evaluate_example(
         #             example=example,
         #             output_sentence=output_sentence,
         #             model=model,
@@ -921,28 +912,37 @@ class FloorplanDataset(JointERDataset):
         #             output_dir=output_dir,
         #             prediction = predicted_index
         #         )
-        #     results+=new_result
-        #     iou[example.id] = average_iou
+        # return "Rendering Done!"
+            new_result, average_iou = self.evaluate_example(
+                    example=example,
+                    output_sentence=output_sentence,
+                    model=model,
+                    tokenizer=self.tokenizer,
+                    output_dir=output_dir,
+                    prediction = predicted_index
+                )
+            results+=new_result
+            iou[example.id] = average_iou
 
-        #     #TODO: store data for Editing model
-        #     if data_args.editing_data == True:
-        #         editing_instance = generate_editing_data(self, example, output_sentence)
-        #         editing_instances.append(editing_instance)
+            #TODO: store data for Editing model
+            if data_args.editing_data == True:
+                editing_instance = generate_editing_data(self, example, output_sentence)
+                editing_instances.append(editing_instance)
         
-        # sorted_iou = {k: v for k, v in sorted(iou.items(), key=lambda item: item[1])}
-        # with open(f'{output_dir}sorted_iou.json', 'w', encoding='utf-8') as f:
-        #         json.dump(sorted_iou, f)
+        sorted_iou = {k: v for k, v in sorted(iou.items(), key=lambda item: item[1])}
+        with open(f'{output_dir}sorted_iou.json', 'w', encoding='utf-8') as f:
+                json.dump(sorted_iou, f)
         
-        # if data_args.editing_data == True:
-        #     #TODO: save editing data
-        #     with open(f'./data/floorplan/{data_args.exp}_editing.json', 'w', encoding='utf-8') as f:
-        #         json.dump(editing_instances, f)
+        if data_args.editing_data == True:
+            #TODO: save editing data
+            with open(f'./data/floorplan/{data_args.exp}_editing.json', 'w', encoding='utf-8') as f:
+                json.dump(editing_instances, f)
             
 
-        # results['macro_average_iou'] = results['macro_average_iou']/results['num_sentences']
-        # results['micro_average_iou'] = results['micro_average_iou']/results['num_sentences']
+        results['macro_average_iou'] = results['macro_average_iou']/results['num_sentences']
+        results['micro_average_iou'] = results['micro_average_iou']/results['num_sentences']
 
-        # return results
+        return results
 
 @register_dataset
 class Conll04Dataset(JointERDataset):
