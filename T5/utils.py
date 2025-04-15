@@ -67,9 +67,9 @@ def render_image_(example,predicted_boxes,all_gt_rooms,gt_boxes,output_dir):
     
     
     #cv2.putText(predicted_image,"Seq2Seq",(10,10),0,0.3,boundary_color)
-    #cv2.imwrite(f'./image_{example.image_id}.png', predicted_image)
+    # cv2.imwrite(f'./image_{example.image_id}.png', predicted_image)
     cv2.imwrite(f'{output_dir}draw/{example.image_id}.png', predicted_image)
-
+    print(f"image written in: {output_dir}draw/{example.image_id}.png")
 def process_boundary_info(boundary_boxes):
     boundary_tokens = []
     for box in boundary_boxes:
