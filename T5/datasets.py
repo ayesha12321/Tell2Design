@@ -684,7 +684,7 @@ class FloorplanDataset(JointERDataset):
         """
         examples = []
         name = self.name if self.data_name is None else self.data_name
-        file_path = '/Tell2Design_unzipped_files/Tell2Design Data/Separated Data/eval_data/T5/floorplan_eval.json'
+        file_path = '/content/Tell2Design/unzipped_files/Tell2Design Data/Separated Data/eval_data/T5/floorplan_eval.json'
 
         with open(file_path, 'r') as f:
             data = json.load(f)
