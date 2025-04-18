@@ -113,8 +113,10 @@ def main():
 
     # construct name for the output directory
     # for example: conll04-t5-base-ep200-len256-ratio0-b4-train
+    drive_output_root = '/content/drive/MyDrive/Tell2Design-project/T5'
     if data_args.exp != None:
         output_dir = os.path.join(
+            drive_output_root,
             training_args.output_dir,
             f'{args.job}'
             f'-{model_args.model_name_or_path.split("/")[-1]}'
@@ -124,6 +126,7 @@ def main():
         )
     else:
         output_dir = os.path.join(
+            drive_output_root,
             training_args.output_dir,
             f'{args.job}'
             f'-{model_args.model_name_or_path.split("/")[-1]}'
