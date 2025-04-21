@@ -688,11 +688,13 @@ class FloorplanDataset(JointERDataset):
 
         with open(file_path, 'r') as f:
             data = json.load(f)
+            data = data[0]
+
             logging.info(f"Loaded {len(data)} sentences for split {split} of {self.name}")
 
             apartment_text = defaultdict()
             for i, description in enumerate(data):
-
+            
                 # TODO: read current data scheme
                 rooms = [Room(type=room['room_type'], x=room['x'], y=room['y'],h=room['h'], w=room['w'],
                 x_min=room['x_min'], y_min=room['y_min'], x_max=room['x_max'], y_max=room['y_max'],
