@@ -1,8 +1,73 @@
-# Tell2Design: A Dataset for Language-Guided Floor Plan Generation
+# Language-to-SCAD: Parametric Floor Plan Generation with Interactive Refinement
 
-Code and data for the paper "[Tell2Design: A Dataset for Language-Guided Floor Plan Generation](http)" (ACL 2023)
+This repository introduces a novel framework for generating and refining architectural floor plans using natural language prompts. It leverages a large language model (fine-tuned with LoRA) to output OpenSCAD code and supports interactive refinement through a conversational agent.
 
-For any inquiries, please contact Lengsicong@gmail.com and zhou_yang@ihpc.a-star.edu.sg.
+---
+
+## Notebooks
+
+- `SCAD_CODE_GENERATION.ipynb`: Generates OpenSCAD floor plan code from a natural language prompt.
+- `SCAD_CODE_REFINEMENT_AGENT.ipynb`: Enables iterative updates to the floor plan based on user instructions.
+
+---
+
+## Usage
+
+Launch Jupyter Notebooks
+
+bash
+Copy
+Edit
+jupyter notebook
+Open and Run:
+
+SCAD_CODE_GENERATION.ipynb: Input a design prompt to generate SCAD code.
+
+SCAD_CODE_REFINEMENT_AGENT.ipynb: Enter feedback to refine the SCAD code iteratively.
+
+View Output in OpenSCAD:
+
+Copy the generated code into a .scad file.
+
+Open the file with OpenSCAD to render and visualize the layout.
+
+##  Features
+
+- **Modular SCAD Output**: Each room is defined as a separate polygon with color and label for extensibility.
+- **LLM + LoRA**: Efficient, fine-tuned generation of syntax-correct OpenSCAD code from descriptive language.
+- **Interactive Agent**: Conversational interface to iteratively update layouts with natural commands.
+- **Real-Time Visualization**: Generated SCAD code can be rendered using [OpenSCAD](https://www.openscad.org/).
+
+---
+
+## Limitations
+SCAD output is restricted to axis-aligned rectangular rooms.
+
+No support yet for multi-floor, doors, or detailed interior geometry.
+
+Abstract spatial concepts (e.g., light, privacy) are hard to encode accurately.
+
+Dataset was manually curated, limiting training scale and diversity.
+
+High memory usage during training due to code complexity.
+
+## Future Work
+Extend SCAD vocabulary for walls, furniture, and multi-story layouts.
+
+Integrate geometric constraint solvers for feasibility.
+
+Add feedback loops to learn from user corrections.
+
+Support 3D rendering and AR visualization.
+##  Installation
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/yourusername/language-to-scad.git
+cd language-to-scad
+pip install -r requirements.txt
+
 
 <!-- If you use this code or dataset, please cite the paper using the bibtex reference below.
 ```
