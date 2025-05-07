@@ -8,7 +8,7 @@ This repository introduces a novel framework for generating and refining archite
 
 - `SCAD_CODE_GENERATION.ipynb`: Generates OpenSCAD floor plan code from a natural language prompt.
 - `SCAD_CODE_REFINEMENT_AGENT.ipynb`: Enables iterative updates to the floor plan based on user instructions.
-
+  LInk to the dataset used to fine tune the model for SCAD code generation : https://drive.google.com/file/d/1ryqA_JT3UpJmJUHWYoBnQKjuOoFOWym9/view?usp=drive_link
 ---
 
 ## Usage
